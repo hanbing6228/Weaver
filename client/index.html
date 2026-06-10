@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weaver.AI — Topographic Risk Ribbon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <header class="top-bar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">WEAVER.AI</span>
+          <span class="brand-sub">Temporal DAG · Structural Stress</span>
+        </div>
+        <div id="metrics-hud" class="metrics-hud"></div>
+      </header>
+      <main class="workspace">
+        <section class="canvas-wrap">
+          <canvas id="ribbon-canvas"></canvas>
+          <div class="canvas-label">Topographic Risk Ribbon</div>
+        </section>
+        <aside class="side-panel">
+          <div class="panel-section">
+            <h2>Engine Controls</h2>
+            <div class="control-group">
+              <button id="btn-compile" type="button" class="btn primary">
+                Compile Historical Mutation
+              </button>
+              <button id="btn-chaos" type="button" class="btn">
+                Run Chaos Stress
+              </button>
+              <button id="btn-refresh" type="button" class="btn ghost">
+                Refresh Bindings
+              </button>
+            </div>
+            <p class="hint">
+              Re-architects <code>self_blame</code> on cognitive node and cascades
+              forward through the DAG.
+            </p>
+          </div>
+          <div class="panel-section flex-grow">
+            <h2>IDE Compile Trace</h2>
+            <pre id="code-flash" class="code-flash" aria-live="polite"></pre>
+          </div>
+        </aside>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
