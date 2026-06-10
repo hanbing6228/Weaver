@@ -3,5 +3,6 @@
 **/__pycache__
 **/*.egg-info
 client/node_modules
-client/dist
+tests
+.venv
 .git
