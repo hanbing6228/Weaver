@@ -1,6 +1,6 @@
 # Weaver.AI Core Engine
 
-Python 3.10+ backend + Vite/Three.js desktop client for bi-directional temporal DAG compilation and structural stress Monte Carlo simulation.
+Python 3.10+ backend + parallel-universe storyboard UI for bi-directional temporal DAG compilation and structural stress Monte Carlo simulation.
 
 ## Quick start
 
@@ -34,7 +34,9 @@ cd client && npm install && npm run build
 cd .. && python -m weaver.api
 ```
 
-Open `http://127.0.0.1:8787/` for the bundled Topographic Risk Ribbon UI.
+Open `http://127.0.0.1:8787/` for the storyboard UI.
+
+Optional: set `WEAVER_ANTHROPIC_API_KEY` on Vercel for LLM-generated dual-timeline captions (falls back to engine templates).
 
 ## Vercel
 

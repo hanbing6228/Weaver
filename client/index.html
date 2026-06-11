@@ -1,57 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weaver.AI — Topographic Risk Ribbon</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="app">
-      <header class="top-bar">
-        <div class="brand">
-          <span class="brand-mark"></span>
-          <span class="brand-name">WEAVER.AI</span>
-          <span class="brand-sub">Temporal DAG · Structural Stress</span>
-        </div>
-        <div id="metrics-hud" class="metrics-hud"></div>
-      </header>
-      <main class="workspace">
-        <section class="canvas-wrap">
-          <canvas id="ribbon-canvas"></canvas>
-          <div class="canvas-label">Topographic Risk Ribbon</div>
-        </section>
-        <aside class="side-panel">
-          <div class="panel-section">
-            <h2>Engine Controls</h2>
-            <div class="control-group">
-              <button id="btn-compile" type="button" class="btn primary">
-                Compile Historical Mutation
-              </button>
-              <button id="btn-chaos" type="button" class="btn">
-                Run Chaos Stress
-              </button>
-              <button id="btn-refresh" type="button" class="btn ghost">
-                Refresh Bindings
-              </button>
-            </div>
-            <p class="hint">
-              Re-architects <code>self_blame</code> on cognitive node and cascades
-              forward through the DAG.
-            </p>
-          </div>
-          <div class="panel-section flex-grow">
-            <h2>IDE Compile Trace</h2>
-            <pre id="code-flash" class="code-flash" aria-live="polite"></pre>
-          </div>
-        </aside>
-      </main>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Weaver.AI · 平行宇宙分镜引擎</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#060504;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC",sans-serif}
+.ph{background:#0A0906;max-width:390px;width:100%;border-radius:28px;overflow:hidden;border:1px solid rgba(196,149,106,0.2);color:#F0E8DC;padding-bottom:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.sb{display:flex;justify-content:space-between;padding:14px 20px 4px;font-size:12px;font-weight:600;color:#A89880}
+.sb .tm{font-size:14px;font-weight:700;color:#F0E8DC}
+.hd{padding:8px 18px 4px;display:flex;align-items:center;gap:10px}
+.gem{width:30px;height:30px;border-radius:9px;background:#C4956A;color:#0A0906;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.hn{font-size:16px;font-weight:700;color:#F5DFB8}
+.hs{font-size:11px;color:#6B5D52}
+.lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#C4956A;padding:12px 18px 8px}
+.vars{display:flex;gap:7px;padding:0 18px 12px;flex-wrap:wrap}
+.vchip{padding:7px 12px;border-radius:18px;border:0.5px solid rgba(196,149,106,0.3);font-size:11px;font-weight:600;cursor:pointer;color:#A89880;background:#12100D;transition:all .2s;user-select:none}
+.vchip.on{background:rgba(196,149,106,0.18);border-color:#C4956A;color:#E8C49A}
+.stage-wrap{margin:0 14px;border-radius:16px;overflow:hidden;border:0.5px solid rgba(196,149,106,0.25);position:relative}
+.film{position:relative;width:100%;height:250px;touch-action:none;cursor:ew-resize;background:#1B222C;user-select:none}
+.layer{position:absolute;inset:0}
+.layer svg{display:block;width:100%;height:100%}
+#layer-dark{clip-path:inset(0 50% 0 0)}
+.divider{position:absolute;top:0;bottom:0;width:2px;background:#F5DFB8;left:50%;pointer-events:none;z-index:5}
+.handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#F5DFB8;color:#0A0906;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;z-index:6;pointer-events:none;letter-spacing:-1px;box-shadow:0 2px 10px rgba(0,0,0,0.4)}
+.tl-tags{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:space-between;padding:0 10px;z-index:4;pointer-events:none}
+.tag{font-size:9px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:12px}
+.tag.d{background:rgba(20,28,38,0.85);color:#8FA3B8;border:0.5px solid rgba(143,163,184,0.3)}
+.tag.b{background:rgba(245,222,184,0.9);color:#6B4A1F}
+.caps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 14px 0}
+.cap{padding:11px 12px;border-radius:12px;font-size:11px;line-height:1.65;border:0.5px solid}
+.cap.d{background:rgba(36,49,64,0.4);border-color:rgba(122,140,160,0.25);color:#9CACBE}
+.cap.b{background:rgba(196,149,106,0.1);border-color:rgba(196,149,106,0.3);color:#E0CCA8}
+.cap .ct{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;opacity:.7}
+.ai-btn{margin:12px 18px 0;width:calc(100% - 36px);padding:13px;background:#C4956A;color:#0A0906;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.ai-btn:active{opacity:.8}
+.ai-btn:disabled{opacity:.45;cursor:wait}
+.mx{margin:14px 18px 0}
+.mrow{margin-bottom:11px}
+.mh{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.mh .mn{color:#A89880;font-weight:600}
+.mh .mv{font-weight:700}
+.bars{display:flex;gap:5px;align-items:center}
+.bt{flex:1;height:5px;background:#221F1B;border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.contrib{margin:14px 18px 0;padding:13px;background:#12100D;border:0.5px solid rgba(196,149,106,0.2);border-radius:12px;text-align:center}
+.cn{font-size:24px;font-weight:700;color:#7AAD79;transition:color .3s}
+.cl{font-size:11px;color:#6B5D52;margin-top:2px}
+.hint{text-align:center;font-size:10px;color:#6B5D52;margin-top:8px;padding:0 18px}
+@media (prefers-reduced-motion: no-preference){
+  .rain{animation:rainfall 1.1s linear infinite}
+  @keyframes rainfall{to{transform:translateY(28px)}}
+  .ray{transform-origin:60px 52px;animation:raysway 6s ease-in-out infinite alternate}
+  @keyframes raysway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+  .note{animation:floatup 3s ease-in-out infinite}
+  .note.n2{animation-delay:1.2s}
+  @keyframes floatup{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(-22px);opacity:0}}
+  .steam{animation:floatup 2.4s ease-in-out infinite}
+  .tailwag{transform-origin:76px 224px;animation:wag 0.8s ease-in-out infinite alternate}
+  @keyframes wag{from{transform:rotate(-8deg)}to{transform:rotate(12deg)}}
+}
+.el-fade{transition:opacity .5s}
+</style>
+</head>
+<body>
+<div class="ph">
+<div class="sb"><span class="tm" id="clock">21:14</span><span>●●● Weaver Engine</span></div>
+<div class="hd">
+  <div class="gem">织</div>
+  <div><div class="hn">平行宇宙分镜</div><div class="hs">变量改写 → 5年后 · 双时间线实时渲染</div></div>
+</div>
+
+<div class="lbl">已改写的变量 · 点击开关</div>
+<div class="vars">
+  <div class="vchip on" id="v-trauma">⏪ 童年卡点已释放</div>
+  <div class="vchip on" id="v-walk">🚶 餐后散步协议</div>
+  <div class="vchip on" id="v-mba">🎓 MBA穿插学习</div>
+</div>
+
+<div class="stage-wrap">
+<div class="film" id="film">
+  <div class="tl-tags">
+    <span class="tag d">默认时间线 · 2031</span>
+    <span class="tag b">改写后 · 2031</span>
+  </div>
+
+  <div class="layer" id="layer-bright">
+    <svg viewBox="0 0 344 250" preserveAspectRatio="xMidYMid slice">
+      <rect width="344" height="250" fill="#F0E2C4"/>
+      <rect width="344" height="170" fill="#F6ECD4"/>
+      <rect x="24" y="28" width="100" height="84" rx="6" fill="#BFD8E8"/>
+      <rect x="24" y="28" width="100" height="84" rx="6" fill="none" stroke="#C9A05A" stroke-width="3"/>
+      <line x1="74" y1="28" x2="74" y2="112" stroke="#C9A05A" stroke-width="2"/>
+      <circle cx="60" cy="52" r="13" fill="#F5C96A"/>
+      <g class="ray" stroke="#F5C96A" stroke-width="2" stroke-linecap="round" opacity="0.7">
+        <line x1="60" y1="32" x2="60" y2="24"/><line x1="60" y1="72" x2="60" y2="80"/>
+        <line x1="40" y1="52" x2="32" y2="52"/><line x1="80" y1="52" x2="88" y2="52"/>
+        <line x1="46" y1="38" x2="40" y2="32"/><line x1="74" y1="66" x2="80" y2="72"/>
+      </g>
+      <g id="el-diploma" class="el-fade">
+        <rect x="200" y="36" width="56" height="42" rx="3" fill="#FDF6E3" stroke="#B8893F" stroke-width="2.5"/>
+        <line x1="212" y1="50" x2="244" y2="50" stroke="#8A6A3A" stroke-width="2"/>
+        <line x1="212" y1="58" x2="238" y2="58" stroke="#C4AE82" stroke-width="1.5"/>
+        <circle cx="228" cy="68" r="4" fill="#C0392B"/>
+      </g>
+      <rect x="280" y="40" width="22" height="34" rx="3" fill="#6B8F71"/>
+      <rect x="284" y="30" width="5" height="12" rx="2" fill="#5B8C5A"/>
+      <rect x="293" y="26" width="5" height="16" rx="2" fill="#7AAD79"/>
+      <rect x="0" y="170" width="344" height="80" fill="#D9C49A"/>
+      <rect x="20" y="158" width="304" height="14" rx="4" fill="#B8935E"/>
+      <rect x="30" y="172" width="10" height="60" fill="#A07F4E"/>
+      <rect x="304" y="172" width="10" height="60" fill="#A07F4E"/>
+      <ellipse cx="120" cy="156" rx="26" ry="6" fill="#C9A86A"/>
+      <circle cx="108" cy="152" r="6" fill="#D85A30"/>
+      <circle cx="121" cy="151" r="6" fill="#E8714A"/>
+      <circle cx="133" cy="153" r="5" fill="#6B8F71"/>
+      <rect x="100" y="142" width="38" height="4" rx="2" fill="#7AAD79"/>
+      <rect x="158" y="142" width="22" height="16" rx="3" fill="#F5DFB8" stroke="#B8935E" stroke-width="1.5"/>
+      <g class="steam" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.8" fill="none">
+        <path d="M164 138 q2 -5 0 -9"/><path d="M172 138 q-2 -5 0 -9"/>
+      </g>
+      <g id="el-mom-b">
+        <circle cx="228" cy="106" r="12" fill="#E8B88A"/>
+        <path d="M216 102 q12 -12 24 0 l0 -4 q-12 -10 -24 0 Z" fill="#3A2E22"/>
+        <path d="M228 118 q-14 4 -16 40 l32 0 q-2 -36 -16 -40" fill="#C4956A"/>
+        <path d="M214 130 q-10 8 -6 18" stroke="#C4956A" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M242 130 q12 6 18 2" stroke="#C4956A" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M223 109 q5 4 10 0" stroke="#7A4A2A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </g>
+      <g id="el-linda" class="el-fade">
+        <circle cx="270" cy="118" r="10" fill="#EDC298"/>
+        <path d="M260 114 q10 -10 20 0 l0 -3 q-10 -9 -20 0 Z" fill="#2E241A"/>
+        <path d="M262 112 q-3 10 1 18" stroke="#2E241A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M270 128 q-11 3 -12 30 l24 0 q-1 -27 -12 -30" fill="#7A9BB5"/>
+        <path d="M266 120 q4 3 8 0" stroke="#8A5A30" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <g fill="#8A6A3A" font-family="sans-serif" font-weight="700">
+          <text class="note" x="290" y="100" font-size="13">♪</text>
+          <text class="note n2" x="302" y="112" font-size="11">♫</text>
+        </g>
+      </g>
+      <g id="el-dog" class="el-fade">
+        <ellipse cx="60" cy="226" rx="17" ry="10" fill="#C9A05A"/>
+        <circle cx="44" cy="219" r="8" fill="#C9A05A"/>
+        <path d="M38 213 l-3 -7 5 2 Z" fill="#A07F3E"/>
+        <path d="M48 212 l3 -7 -6 2 Z" fill="#A07F3E"/>
+        <path class="tailwag" d="M76 224 q8 -3 6 -10" stroke="#C9A05A" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="layer" id="layer-dark">
+    <svg viewBox="0 0 344 250" preserveAspectRatio="xMidYMid slice">
+      <rect width="344" height="250" fill="#161D27"/>
+      <rect width="344" height="170" fill="#1B2430"/>
+      <rect x="24" y="28" width="100" height="84" rx="6" fill="#101820"/>
+      <rect x="24" y="28" width="100" height="84" rx="6" fill="none" stroke="#3A4656" stroke-width="3"/>
+      <line x1="74" y1="28" x2="74" y2="112" stroke="#3A4656" stroke-width="2"/>
+      <circle cx="98" cy="48" r="9" fill="#B8C4D4" opacity="0.7"/>
+      <g class="rain" stroke="#46586E" stroke-width="1.4" stroke-linecap="round" opacity="0.8">
+        <line x1="36" y1="36" x2="33" y2="46"/><line x1="56" y1="50" x2="53" y2="60"/>
+        <line x1="46" y1="72" x2="43" y2="82"/><line x1="66" y1="84" x2="63" y2="94"/>
+        <line x1="86" y1="66" x2="83" y2="76"/><line x1="108" y1="80" x2="105" y2="90"/>
+      </g>
+      <circle cx="240" cy="52" r="16" fill="none" stroke="#3A4656" stroke-width="3"/>
+      <line x1="240" y1="52" x2="240" y2="42" stroke="#8FA3B8" stroke-width="2" stroke-linecap="round"/>
+      <line x1="240" y1="52" x2="248" y2="58" stroke="#8FA3B8" stroke-width="2" stroke-linecap="round"/>
+      <rect x="0" y="170" width="344" height="80" fill="#222B38"/>
+      <rect x="20" y="158" width="304" height="14" rx="4" fill="#2E3A4A"/>
+      <rect x="30" y="172" width="10" height="60" fill="#28323F"/>
+      <rect x="304" y="172" width="10" height="60" fill="#28323F"/>
+      <path d="M96 158 l0 -34 46 0 0 34 Z" fill="#3A4656"/>
+      <rect x="99" y="127" width="40" height="28" rx="2" fill="#5C7A9C"/>
+      <text x="119" y="139" font-size="8" fill="#C8D8E8" text-anchor="middle" font-family="monospace" font-weight="700">CFA L2</text>
+      <text x="119" y="149" font-size="6" fill="#8FA3B8" text-anchor="middle" font-family="monospace">第3次重考</text>
+      <rect x="158" y="138" width="13" height="20" rx="2.5" fill="#8A5A2A"/>
+      <rect x="158" y="134" width="13" height="5" rx="2" fill="#C9C9C9"/>
+      <rect x="178" y="144" width="13" height="14" rx="2.5" fill="#6A4A6A"/>
+      <rect x="178" y="140" width="13" height="5" rx="2" fill="#C9C9C9"/>
+      <rect x="64" y="150" width="24" height="8" rx="1" fill="#4A5666" transform="rotate(-6 76 154)"/>
+      <rect x="58" y="154" width="24" height="8" rx="1" fill="#3E4A5A" transform="rotate(4 70 158)"/>
+      <g>
+        <circle cx="226" cy="120" r="12" fill="#C9A07E"/>
+        <path d="M214 118 q12 -12 24 0 l0 -4 q-12 -10 -24 0 Z" fill="#2A2018"/>
+        <path d="M226 132 q-18 8 -20 30 l34 0 q4 -22 -14 -30" fill="#5A6678"/>
+        <path d="M212 144 q-8 10 0 16" stroke="#5A6678" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M238 142 q10 8 4 18" stroke="#5A6678" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M220 126 q6 -2 11 1" stroke="#6A4A3A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M242 110 q6 -6 3 -12" stroke="#46586E" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <path d="M248 112 q7 -7 4 -14" stroke="#46586E" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/>
+      </g>
+      <g>
+        <rect x="282" y="96" width="48" height="76" rx="3" fill="#28323F" stroke="#3A4656" stroke-width="2"/>
+        <circle cx="290" cy="136" r="2.5" fill="#5A6678"/>
+        <rect x="292" y="106" width="28" height="12" rx="2" fill="#3A2A2A"/>
+        <text x="306" y="115" font-size="7" fill="#C08A8A" text-anchor="middle" font-family="sans-serif" font-weight="700">勿扰</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="divider" id="divider"></div>
+  <div class="handle" id="handle">‹›</div>
+</div>
+</div>
+<div class="hint">← 拖动分割线 · 擦出两个平行宇宙 →</div>
+
+<div class="caps">
+  <div class="cap d"><div class="ct">默认时间线旁白</div><span id="cap-d">加载引擎叙事中…</span></div>
+  <div class="cap b"><div class="ct">改写后旁白</div><span id="cap-b">加载引擎叙事中…</span></div>
+</div>
+
+<button class="ai-btn" id="ai-btn" type="button">🎬 AI 重新生成双时间线旁白</button>
+
+<div class="lbl" style="padding-top:16px">五年后 · 生理与关系指标对比</div>
+<div class="mx" id="metrics"></div>
+
+<div class="contrib">
+  <div class="cn" id="contrib-num">+0.0%</div>
+  <div class="cl">当前变量组合对综合人生胜率的拉升</div>
+</div>
+</div>
+
+<script type="module" src="/src/storyboard.js"></script>
+</body>
 </html>

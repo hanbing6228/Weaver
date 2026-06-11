@@ -153,6 +153,57 @@ class GraphSnapshot(BaseModel):
     is_acyclic: bool
 
 
+class StoryboardVariables(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    trauma: bool = True
+    walk: bool = True
+    mba: bool = True
+
+    def active_keys(self) -> list[str]:
+        return [key for key in ("trauma", "walk", "mba") if getattr(self, key)]
+
+    def active_labels(self, labels: dict[str, str]) -> list[str]:
+        return [labels[key] for key in self.active_keys()]
+
+
+class StoryboardCaptions(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    dark: str
+    bright: str
+
+
+class StoryboardMetric(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    name: str
+    base_value: int
+    current_value: int
+    unit: str = ""
+    inverse: bool = True
+    max_value: int = 100
+
+
+class StoryboardSyncRequest(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    variables: StoryboardVariables
+
+
+class StoryboardSyncResponse(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    variables: StoryboardVariables
+    metrics: list[StoryboardMetric]
+    captions: StoryboardCaptions
+    win_contribution_percent: float
+    computed_win_rate: float
+    structural_integrity: str
+    compile_trace: list[str]
+    element_visibility: dict[str, float]
+
+
 class LifeGraphState(BaseModel):
     model_config = ConfigDict(strict=False, extra="forbid")
 
