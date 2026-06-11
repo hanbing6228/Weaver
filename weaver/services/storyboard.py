@@ -89,6 +89,31 @@ class StoryboardService:
             return llm
         return self._template_captions(variables)
 
+    @staticmethod
+    def _caption_prompt(variables: StoryboardVariables) -> tuple[str, str]:
+        active = variables.active_labels(VARIABLE_LABELS)
+        system = (
+            "你是Weaver.AI平行宇宙分镜引擎的旁白导演。用户Jennifer，单身母亲，女儿Linda现12岁"
+            "（5年后17岁），住北卡Cary，管理pre-diabetes，Fidelity系统分析师。生成两段5年后(2031年)"
+            "的电影旁白字幕，画面感强，具体到物件和动作，不抒情不说教。输出严格JSON无markdown："
+            '{"dark":"默认时间线旁白，疲惫压抑，50字内","bright":"改写后旁白，松弛温暖，50字内"}'
+        )
+        user = f"已改写变量：{'、'.join(active) or '无（全部关闭）'}。生成双时间线旁白。"
+        return system, user
+
+    @staticmethod
+    def _parse_caption_json(text: str) -> StoryboardCaptions | None:
+        cleaned = text.replace("```json", "").replace("```", "").strip()
+        try:
+            parsed = json.loads(cleaned)
+        except json.JSONDecodeError:
+            return None
+        dark = str(parsed.get("dark", "")).strip()
+        bright = str(parsed.get("bright", "")).strip()
+        if not dark and not bright:
+            return None
+        return StoryboardCaptions(dark=dark, bright=bright)
+
     def _build_metrics(
         self,
         state,
@@ -170,7 +195,88 @@ class StoryboardService:
         )
 
     def _llm_captions(self, variables: StoryboardVariables) -> StoryboardCaptions | None:
-        api_key = os.environ.get("WEAVER_ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_API_KEY")
+        provider = (os.environ.get("WEAVER_LLM_PROVIDER") or "").strip().lower()
+        google_key = self._google_api_key()
+        anthropic_key = os.environ.get("WEAVER_ANTHROPIC_API_KEY") or os.environ.get(
+            "ANTHROPIC_API_KEY"
+        )
+
+        if provider in {"google", "gemini"}:
+            return self._gemini_captions(variables, google_key) if google_key else None
+        if provider == "anthropic":
+            return self._anthropic_captions(variables, anthropic_key) if anthropic_key else None
+
+        if google_key:
+            captions = self._gemini_captions(variables, google_key)
+            if captions is not None:
+                return captions
+        if anthropic_key:
+            return self._anthropic_captions(variables, anthropic_key)
+        return None
+
+    @staticmethod
+    def _google_api_key() -> str | None:
+        for name in (
+            "WEAVER_GOOGLE_API_KEY",
+            "GEMINI_API_KEY",
+            "GOOGLE_GENERATIVE_AI_API_KEY",
+            "GOOGLE_AI_API_KEY",
+            "GOOGLE_API_KEY",
+        ):
+            raw = os.environ.get(name)
+            if raw and raw.strip():
+                return raw.strip()
+        return None
+
+    def _gemini_captions(
+        self,
+        variables: StoryboardVariables,
+        api_key: str,
+    ) -> StoryboardCaptions | None:
+        try:
+            import httpx
+        except ImportError:
+            return None
+
+        system, user = self._caption_prompt(variables)
+        models = (
+            os.environ.get("GEMINI_MODEL")
+            or os.environ.get("WEAVER_GEMINI_MODEL")
+            or "gemini-2.0-flash,gemini-1.5-flash"
+        )
+        for model in [m.strip() for m in models.split(",") if m.strip()]:
+            try:
+                response = httpx.post(
+                    f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+                    params={"key": api_key},
+                    headers={"Content-Type": "application/json"},
+                    json={
+                        "systemInstruction": {"parts": [{"text": system}]},
+                        "contents": [{"role": "user", "parts": [{"text": user}]}],
+                        "generationConfig": {"maxOutputTokens": 512, "temperature": 0.7},
+                    },
+                    timeout=25.0,
+                )
+                response.raise_for_status()
+                payload = response.json()
+                text = (
+                    payload.get("candidates", [{}])[0]
+                    .get("content", {})
+                    .get("parts", [{}])[0]
+                    .get("text", "")
+                )
+                captions = self._parse_caption_json(str(text))
+                if captions is not None:
+                    return captions
+            except Exception:
+                continue
+        return None
+
+    def _anthropic_captions(
+        self,
+        variables: StoryboardVariables,
+        api_key: str | None,
+    ) -> StoryboardCaptions | None:
         if not api_key:
             return None
 
@@ -179,14 +285,7 @@ class StoryboardService:
         except ImportError:
             return None
 
-        active = variables.active_labels(VARIABLE_LABELS)
-        system = (
-            "你是Weaver.AI平行宇宙分镜引擎的旁白导演。用户Jennifer，单身母亲，女儿Linda现12岁"
-            "（5年后17岁），住北卡Cary，管理pre-diabetes，Fidelity系统分析师。生成两段5年后(2031年)"
-            "的电影旁白字幕，画面感强，具体到物件和动作，不抒情不说教。输出严格JSON无markdown："
-            '{"dark":"默认时间线旁白，疲惫压抑，50字内","bright":"改写后旁白，松弛温暖，50字内"}'
-        )
-        user = f"已改写变量：{'、'.join(active) or '无（全部关闭）'}。生成双时间线旁白。"
+        system, user = self._caption_prompt(variables)
 
         try:
             response = httpx.post(
@@ -211,11 +310,6 @@ class StoryboardService:
                 for block in payload.get("content", [])
                 if block.get("type") == "text"
             )
-            text = text.replace("```json", "").replace("```", "").strip()
-            parsed = json.loads(text)
-            return StoryboardCaptions(
-                dark=str(parsed.get("dark", "")),
-                bright=str(parsed.get("bright", "")),
-            )
+            return self._parse_caption_json(text)
         except Exception:
             return None

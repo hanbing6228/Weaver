@@ -17,6 +17,15 @@ def test_storyboard_sync_all_variables() -> None:
     assert response.element_visibility["el-dog"] == 1.0
 
 
+def test_parse_caption_json() -> None:
+    parsed = StoryboardService._parse_caption_json(
+        '{"dark":"雨夜","bright":"阳光"}'
+    )
+    assert parsed is not None
+    assert parsed.dark == "雨夜"
+    assert parsed.bright == "阳光"
+
+
 def test_storyboard_sync_reduces_metrics_when_vars_off() -> None:
     service = StoryboardService(_fresh_storyboard_service)
     full = service.sync(

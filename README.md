@@ -36,7 +36,12 @@ cd .. && python -m weaver.api
 
 Open `http://127.0.0.1:8787/` for the storyboard UI.
 
-Optional: set `WEAVER_ANTHROPIC_API_KEY` on Vercel for LLM-generated dual-timeline captions (falls back to engine templates).
+Optional LLM captions (falls back to engine templates if unset or call fails):
+
+- **Google Gemini (recommended):** `GEMINI_API_KEY` or `GOOGLE_API_KEY` from [Google AI Studio](https://aistudio.google.com/apikey)
+- **Anthropic:** `WEAVER_ANTHROPIC_API_KEY` or `ANTHROPIC_API_KEY`
+- **Provider override:** `WEAVER_LLM_PROVIDER=google` or `anthropic` when both keys are set
+- **Model override:** `GEMINI_MODEL=gemini-2.0-flash` (comma-separated fallbacks)
 
 ## Vercel
 
