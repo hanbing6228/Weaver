@@ -2,7 +2,7 @@
   "name": "Weaver.AI · 命运分镜",
   "short_name": "命运分镜",
   "description": "水晶球裁决 · 时光机回溯改命",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F6FAFF",
@@ -10,7 +10,7 @@
   "lang": "zh-CN",
   "icons": [
     {
-      "src": "icon.svg",
+      "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
