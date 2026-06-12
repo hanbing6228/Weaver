@@ -22,6 +22,7 @@ from weaver.models.schemas import (
     LifeGraphState,
     LifeTicket,
     LifeTicketStatus,
+    LLMJsonRequest,
     StoryboardCaptions,
     StoryboardSyncRequest,
     StoryboardSyncResponse,
@@ -31,6 +32,7 @@ from weaver.models.schemas import (
 )
 from weaver.services.bindings import build_render_bindings
 from weaver.services.lifecycle import WeaverLifecycleService
+from weaver.services.llm import complete_json
 from weaver.services.storyboard import StoryboardService
 
 _service: WeaverLifecycleService | None = None
@@ -221,6 +223,14 @@ def _fresh_storyboard_service() -> WeaverLifecycleService:
 
 
 _storyboard = StoryboardService(_fresh_storyboard_service)
+
+
+@app.post(f"{settings.api_prefix}/llm/json")
+def llm_json(request: LLMJsonRequest) -> dict[str, Any]:
+    result = complete_json(request.system, request.user, request.max_tokens)
+    if result is None:
+        raise HTTPException(status_code=503, detail="LLM unavailable")
+    return result
 
 
 @app.post(

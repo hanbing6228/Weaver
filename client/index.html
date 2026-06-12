@@ -3,173 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#060504">
+<meta name="theme-color" content="#F6FAFF">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="平行宇宙分镜">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="命运分镜">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>Weaver.AI · 平行宇宙分镜</title>
+<title>Weaver.AI · 命运分镜</title>
 <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
-<div class="ph">
-<div class="scroll-main">
-<div class="sb"><span class="tm" id="clock">21:14</span><span class="engine-pill" id="engine-pill">● Weaver Engine</span></div>
-<div class="hd">
-  <div class="gem">织</div>
-  <div><div class="hn">平行宇宙分镜</div><div class="hs">变量改写 → 5年后 · 双时间线实时渲染</div></div>
-</div>
 
-<div class="lbl">已改写的变量 · 点击开关</div>
-<div class="vars">
-  <div class="vchip on" id="v-trauma">⏪ 童年卡点已释放</div>
-  <div class="vchip on" id="v-walk">🚶 餐后散步协议</div>
-  <div class="vchip on" id="v-mba">🎓 MBA穿插学习</div>
-</div>
+<div class="phone">
+<div class="statusbar"><span class="tm" id="clock">21:30</span><span>●●● WiFi 82%</span></div>
+<div class="toast" id="toast"></div>
 
-<div class="stage-wrap">
-<div class="film" id="film">
-  <div class="tl-tags">
-    <span class="tag d">默认时间线 · 2031</span>
-    <span class="tag b">改写后 · 2031</span>
+<!-- ===== 主页 ===== -->
+<div class="scr on" id="s-home">
+  <div class="hd">
+    <div class="gem">织</div>
+    <div><div class="hn">命运分镜</div><div class="hs">水晶球外包内耗 · 时光机回溯改命</div></div>
   </div>
-
-  <div class="layer" id="layer-bright">
-    <svg viewBox="0 0 344 250" preserveAspectRatio="xMidYMid slice">
-      <rect width="344" height="250" fill="#F0E2C4"/>
-      <rect width="344" height="170" fill="#F6ECD4"/>
-      <rect x="24" y="28" width="100" height="84" rx="6" fill="#BFD8E8"/>
-      <rect x="24" y="28" width="100" height="84" rx="6" fill="none" stroke="#C9A05A" stroke-width="3"/>
-      <line x1="74" y1="28" x2="74" y2="112" stroke="#C9A05A" stroke-width="2"/>
-      <circle cx="60" cy="52" r="13" fill="#F5C96A"/>
-      <g class="ray" stroke="#F5C96A" stroke-width="2" stroke-linecap="round" opacity="0.7">
-        <line x1="60" y1="32" x2="60" y2="24"/><line x1="60" y1="72" x2="60" y2="80"/>
-        <line x1="40" y1="52" x2="32" y2="52"/><line x1="80" y1="52" x2="88" y2="52"/>
-        <line x1="46" y1="38" x2="40" y2="32"/><line x1="74" y1="66" x2="80" y2="72"/>
-      </g>
-      <g id="el-diploma" class="el-fade">
-        <rect x="200" y="36" width="56" height="42" rx="3" fill="#FDF6E3" stroke="#B8893F" stroke-width="2.5"/>
-        <line x1="212" y1="50" x2="244" y2="50" stroke="#8A6A3A" stroke-width="2"/>
-        <line x1="212" y1="58" x2="238" y2="58" stroke="#C4AE82" stroke-width="1.5"/>
-        <circle cx="228" cy="68" r="4" fill="#C0392B"/>
-      </g>
-      <rect x="280" y="40" width="22" height="34" rx="3" fill="#6B8F71"/>
-      <rect x="284" y="30" width="5" height="12" rx="2" fill="#5B8C5A"/>
-      <rect x="293" y="26" width="5" height="16" rx="2" fill="#7AAD79"/>
-      <rect x="0" y="170" width="344" height="80" fill="#D9C49A"/>
-      <rect x="20" y="158" width="304" height="14" rx="4" fill="#B8935E"/>
-      <rect x="30" y="172" width="10" height="60" fill="#A07F4E"/>
-      <rect x="304" y="172" width="10" height="60" fill="#A07F4E"/>
-      <ellipse cx="120" cy="156" rx="26" ry="6" fill="#C9A86A"/>
-      <circle cx="108" cy="152" r="6" fill="#D85A30"/>
-      <circle cx="121" cy="151" r="6" fill="#E8714A"/>
-      <circle cx="133" cy="153" r="5" fill="#6B8F71"/>
-      <rect x="100" y="142" width="38" height="4" rx="2" fill="#7AAD79"/>
-      <rect x="158" y="142" width="22" height="16" rx="3" fill="#F5DFB8" stroke="#B8935E" stroke-width="1.5"/>
-      <g class="steam" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.8" fill="none">
-        <path d="M164 138 q2 -5 0 -9"/><path d="M172 138 q-2 -5 0 -9"/>
-      </g>
-      <g id="el-mom-b">
-        <circle cx="228" cy="106" r="12" fill="#E8B88A"/>
-        <path d="M216 102 q12 -12 24 0 l0 -4 q-12 -10 -24 0 Z" fill="#3A2E22"/>
-        <path d="M228 118 q-14 4 -16 40 l32 0 q-2 -36 -16 -40" fill="#C4956A"/>
-        <path d="M214 130 q-10 8 -6 18" stroke="#C4956A" stroke-width="7" stroke-linecap="round" fill="none"/>
-        <path d="M242 130 q12 6 18 2" stroke="#C4956A" stroke-width="7" stroke-linecap="round" fill="none"/>
-        <path d="M223 109 q5 4 10 0" stroke="#7A4A2A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      </g>
-      <g id="el-linda" class="el-fade">
-        <circle cx="270" cy="118" r="10" fill="#EDC298"/>
-        <path d="M260 114 q10 -10 20 0 l0 -3 q-10 -9 -20 0 Z" fill="#2E241A"/>
-        <path d="M262 112 q-3 10 1 18" stroke="#2E241A" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <path d="M270 128 q-11 3 -12 30 l24 0 q-1 -27 -12 -30" fill="#7A9BB5"/>
-        <path d="M266 120 q4 3 8 0" stroke="#8A5A30" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-        <g fill="#8A6A3A" font-family="sans-serif" font-weight="700">
-          <text class="note" x="290" y="100" font-size="13">♪</text>
-          <text class="note n2" x="302" y="112" font-size="11">♫</text>
-        </g>
-      </g>
-      <g id="el-dog" class="el-fade">
-        <ellipse cx="60" cy="226" rx="17" ry="10" fill="#C9A05A"/>
-        <circle cx="44" cy="219" r="8" fill="#C9A05A"/>
-        <path d="M38 213 l-3 -7 5 2 Z" fill="#A07F3E"/>
-        <path d="M48 212 l3 -7 -6 2 Z" fill="#A07F3E"/>
-        <path class="tailwag" d="M76 224 q8 -3 6 -10" stroke="#C9A05A" stroke-width="4" fill="none" stroke-linecap="round"/>
-      </g>
-    </svg>
+  <div class="stats">
+    <div class="stat"><div class="s-n" id="st-decisions">0</div><div class="s-l">已裁决选择</div></div>
+    <div class="stat"><div class="s-n" id="st-released">0</div><div class="s-l">已释放卡点</div></div>
+    <div class="stat"><div class="s-n" id="st-neihao">—</div><div class="s-l">省下的内耗</div></div>
   </div>
-
-  <div class="layer" id="layer-dark">
-    <svg viewBox="0 0 344 250" preserveAspectRatio="xMidYMid slice">
-      <rect width="344" height="250" fill="#161D27"/>
-      <rect width="344" height="170" fill="#1B2430"/>
-      <rect x="24" y="28" width="100" height="84" rx="6" fill="#101820"/>
-      <rect x="24" y="28" width="100" height="84" rx="6" fill="none" stroke="#3A4656" stroke-width="3"/>
-      <line x1="74" y1="28" x2="74" y2="112" stroke="#3A4656" stroke-width="2"/>
-      <circle cx="98" cy="48" r="9" fill="#B8C4D4" opacity="0.7"/>
-      <g class="rain" stroke="#46586E" stroke-width="1.4" stroke-linecap="round" opacity="0.8">
-        <line x1="36" y1="36" x2="33" y2="46"/><line x1="56" y1="50" x2="53" y2="60"/>
-        <line x1="46" y1="72" x2="43" y2="82"/><line x1="66" y1="84" x2="63" y2="94"/>
-        <line x1="86" y1="66" x2="83" y2="76"/><line x1="108" y1="80" x2="105" y2="90"/>
-      </g>
-      <circle cx="240" cy="52" r="16" fill="none" stroke="#3A4656" stroke-width="3"/>
-      <line x1="240" y1="52" x2="240" y2="42" stroke="#8FA3B8" stroke-width="2" stroke-linecap="round"/>
-      <line x1="240" y1="52" x2="248" y2="58" stroke="#8FA3B8" stroke-width="2" stroke-linecap="round"/>
-      <rect x="0" y="170" width="344" height="80" fill="#222B38"/>
-      <rect x="20" y="158" width="304" height="14" rx="4" fill="#2E3A4A"/>
-      <rect x="30" y="172" width="10" height="60" fill="#28323F"/>
-      <rect x="304" y="172" width="10" height="60" fill="#28323F"/>
-      <path d="M96 158 l0 -34 46 0 0 34 Z" fill="#3A4656"/>
-      <rect x="99" y="127" width="40" height="28" rx="2" fill="#5C7A9C"/>
-      <text x="119" y="139" font-size="8" fill="#C8D8E8" text-anchor="middle" font-family="monospace" font-weight="700">CFA L2</text>
-      <text x="119" y="149" font-size="6" fill="#8FA3B8" text-anchor="middle" font-family="monospace">第3次重考</text>
-      <rect x="158" y="138" width="13" height="20" rx="2.5" fill="#8A5A2A"/>
-      <rect x="158" y="134" width="13" height="5" rx="2" fill="#C9C9C9"/>
-      <rect x="178" y="144" width="13" height="14" rx="2.5" fill="#6A4A6A"/>
-      <rect x="178" y="140" width="13" height="5" rx="2" fill="#C9C9C9"/>
-      <rect x="64" y="150" width="24" height="8" rx="1" fill="#4A5666" transform="rotate(-6 76 154)"/>
-      <rect x="58" y="154" width="24" height="8" rx="1" fill="#3E4A5A" transform="rotate(4 70 158)"/>
-      <g>
-        <circle cx="226" cy="120" r="12" fill="#C9A07E"/>
-        <path d="M214 118 q12 -12 24 0 l0 -4 q-12 -10 -24 0 Z" fill="#2A2018"/>
-        <path d="M226 132 q-18 8 -20 30 l34 0 q4 -22 -14 -30" fill="#5A6678"/>
-        <path d="M212 144 q-8 10 0 16" stroke="#5A6678" stroke-width="7" fill="none" stroke-linecap="round"/>
-        <path d="M238 142 q10 8 4 18" stroke="#5A6678" stroke-width="7" fill="none" stroke-linecap="round"/>
-        <path d="M220 126 q6 -2 11 1" stroke="#6A4A3A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <path d="M242 110 q6 -6 3 -12" stroke="#46586E" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.9"/>
-        <path d="M248 112 q7 -7 4 -14" stroke="#46586E" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.6"/>
-      </g>
-      <g>
-        <rect x="282" y="96" width="48" height="76" rx="3" fill="#28323F" stroke="#3A4656" stroke-width="2"/>
-        <circle cx="290" cy="136" r="2.5" fill="#5A6678"/>
-        <rect x="292" y="106" width="28" height="12" rx="2" fill="#3A2A2A"/>
-        <text x="306" y="115" font-size="7" fill="#C08A8A" text-anchor="middle" font-family="sans-serif" font-weight="700">勿扰</text>
-      </g>
-    </svg>
+  <div class="mode-card mc-crystal" onclick="nav('s-cin','t-crystal')">
+    <div class="mc-arrow">›</div>
+    <div class="mc-icon">🔮</div>
+    <div class="mc-t">水晶球 · 选择裁决</div>
+    <div class="mc-s">任何纠结都行——吃冰淇淋还是睡觉。左右脑打架可视化，双未来分镜，把内耗外包出去。</div>
   </div>
+  <div class="mode-card mc-time" onclick="nav('s-tin','t-time')">
+    <div class="mc-arrow">›</div>
+    <div class="mc-icon">⏪</div>
+    <div class="mc-t">时光机 · 回溯疗愈</div>
+    <div class="mc-s">引导你安全回到过去的卡点，释放当时的情绪，从那个时间戳重织现在与未来。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">两个模式是打通的</div>
+    <div class="sec-hint" style="margin:0">水晶球裁决时如果发现你的选择背后藏着反复出现的旧模式（比如总是选「忍着」），会自动建议跳去时光机处理根源。处理完根源，再回水晶球重测——胜率会不一样。</div>
+  </div>
+</div>
 
-  <div class="divider" id="divider"></div>
-  <div class="handle" id="handle">‹›</div>
+<!-- ===== 水晶球·输入 ===== -->
+<div class="scr" id="s-cin">
+  <div class="hd">
+    <div class="back" onclick="nav('s-home','t-home')">‹</div>
+    <div><div class="hn">水晶球</div><div class="hs">第一步 · 你在纠结什么</div></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">灵感分类 · 点一下试试</div>
+    <div class="cat-row">
+      <div class="cat" onclick="fillAB('现在吃冰淇淋','放下手机去睡觉',1)">🍦 日常</div>
+      <div class="cat" onclick="fillAB('接受猎头offer跳槽','留在现公司苟住',5)">💼 职业</div>
+      <div class="cat" onclick="fillAB('把委屈直接说出来','继续忍着维持和平',4)">💞 关系</div>
+      <div class="cat" onclick="fillAB('餐后立刻走20分钟','瘫在沙发刷手机',4)">🏃 健康</div>
+      <div class="cat" onclick="fillAB('今晚推进确权文件','再拖一周',5)">⚖️ 法务</div>
+      <div class="cat" onclick="fillAB('周末带娃公路旅行','在家各玩各的',3)">👧 亲子</div>
+    </div>
+    <label class="inp-label" style="color:var(--c1d)">选项 A</label>
+    <input class="inp" id="optA" placeholder="例如：现在吃冰淇淋">
+    <label class="inp-label" style="color:#C77E3C">选项 B</label>
+    <input class="inp" id="optB" placeholder="例如：放下手机去睡觉">
+  </div>
+  <div class="sec">
+    <div class="sec-t">第二步 · 调参数</div>
+    <div class="param">
+      <div class="p-name"><span>⏳ 推演时间跨度</span></div>
+      <div class="stepper">
+        <button class="st-btn" onclick="stepH(-1)">−</button>
+        <div class="st-val" id="h-val">今晚</div>
+        <button class="st-btn" onclick="stepH(1)">＋</button>
+      </div>
+    </div>
+    <div class="param">
+      <div class="p-name"><span>🔋 当前情绪能量</span><span class="p-val" id="e-val">55</span></div>
+      <input type="range" min="0" max="100" value="55" id="e-range" oninput="document.getElementById('e-val').textContent=this.value">
+    </div>
+    <div class="param" style="margin-bottom:0">
+      <div class="p-name"><span>🧗 意志力存量</span><span class="p-val" id="w-val">40</span></div>
+      <input type="range" min="0" max="100" value="40" id="w-range" oninput="document.getElementById('w-val').textContent=this.value">
+    </div>
+  </div>
+  <button class="go" id="btn-fight" onclick="summonBrains()">🧠 召唤左右脑 →</button>
+  <div class="think" id="tk-fight"><div class="tdots"><span></span><span></span><span></span></div><div class="tk">左右脑正在赶来现场...</div></div>
 </div>
-</div>
-<div class="hint">← 拖动分割线 · 擦出两个平行宇宙 →</div>
 
-<div class="caps">
-  <div class="cap d"><div class="ct">默认时间线旁白</div><span id="cap-d">加载引擎叙事中…</span></div>
-  <div class="cap b"><div class="ct">改写后旁白</div><span id="cap-b">加载引擎叙事中…</span></div>
+<!-- ===== 水晶球·拔河 ===== -->
+<div class="scr" id="s-fight">
+  <div class="hd">
+    <div class="back" onclick="nav('s-cin','t-crystal')">‹</div>
+    <div><div class="hn">左右脑拔河</div><div class="hs">点击认同的理由 · 绳结会移动 · 内耗会下降</div></div>
+  </div>
+  <div class="sec">
+    <div class="rope-zone">
+      <div class="brain l"><span class="bi">🧊</span><span class="bl">理性脑</span></div>
+      <div class="brain r"><span class="bi">🔥</span><span class="bl">感性脑</span></div>
+      <div class="rope"></div>
+      <div class="knot" id="knot" style="left:50%"></div>
+      <div class="lean" id="lean">势均力敌 · 这就是你卡住的原因</div>
+    </div>
+    <div class="neihao">
+      <div class="nh-num" id="nh">100</div>
+      <div class="nh-l">内耗指数 · 每看清一条理由下降一格</div>
+    </div>
+    <div class="arg-col-t" style="color:var(--c1d)">🧊 理性脑（偏向 <span id="r-side">B</span>）</div>
+    <div id="args-l"></div>
+    <div class="arg-col-t" style="color:var(--warm2)">🔥 感性脑（偏向 <span id="e-side">A</span>）</div>
+    <div id="args-r"></div>
+  </div>
+  <button class="go" id="btn-board" onclick="castBoard()">🔮 水晶球裁决 · 渲染双未来 →</button>
+  <div class="think" id="tk-board"><div class="tdots"><span></span><span></span><span></span></div><div class="tk">正在两条时间线上各拍一部三幕短片...</div></div>
 </div>
 
-<button class="ai-btn" id="ai-btn" type="button">🎬 AI 重新生成双时间线旁白</button>
+<!-- ===== 水晶球·隔板分镜 ===== -->
+<div class="scr" id="s-board">
+  <div class="hd">
+    <div class="back" onclick="nav('s-fight','t-crystal')">‹</div>
+    <div><div class="hn">双未来分镜</div><div class="hs" id="board-sub">上下拖隔板对比 · 点幕切换剧情</div></div>
+  </div>
+  <div class="acts" id="acts"></div>
+  <div class="wipe-wrap">
+    <div class="wipe" id="wipe">
+      <div class="wtag t" id="wtag-a">A</div>
+      <div class="wtag b" id="wtag-b">B</div>
+      <div class="wlayer" id="wl-bot"><svg viewBox="0 0 360 330" preserveAspectRatio="xMidYMid slice" id="svg-b"></svg></div>
+      <div class="wlayer" id="wl-top"><svg viewBox="0 0 360 330" preserveAspectRatio="xMidYMid slice" id="svg-a"></svg></div>
+      <div class="wdiv" id="wdiv"></div>
+      <div class="whandle" id="whandle">⇅</div>
+    </div>
+  </div>
+  <div class="caps2">
+    <div class="cap2 a"><div class="ct" id="ct-a">A</div><span id="cap-a"></span></div>
+    <div class="cap2 b"><div class="ct" id="ct-b">B</div><span id="cap-b"></span></div>
+  </div>
+  <div class="verdict">
+    <div class="vd-t">🔮 水晶球的话</div>
+    <div class="vd-b" id="vd"></div>
+    <div class="vd-c" id="vd-c"></div>
+  </div>
+  <div class="pattern" id="pattern">
+    <div class="pt-t">⚠️ 检测到深层卡点</div>
+    <div class="pt-b" id="pt-text"></div>
+    <button class="pt-btn" onclick="goHeal()">⏪ 去时光机处理根源 →</button>
+  </div>
+</div>
 
-<div class="lbl" style="padding-top:16px">五年后 · 生理与关系指标对比</div>
-<div class="mx" id="metrics"></div>
+<!-- ===== 时光机·输入 ===== -->
+<div class="scr" id="s-tin">
+  <div class="hd">
+    <div class="back" onclick="nav('s-home','t-home')">‹</div>
+    <div><div class="hn">时光机</div><div class="hs">锚定那个时刻 · 时间完全灵活</div></div>
+  </div>
+  <div class="sec">
+    <div class="sec-hint">可以是二十年前的童年，也可以是上周三的争吵，甚至今天早上。任何让你现在还隐隐发紧的时刻。</div>
+    <label class="inp-label">那是什么时候</label>
+    <input class="inp" id="tm-when" placeholder="例如：8岁那年冬天 / 2015年分手那晚 / 上周三开会">
+    <label class="inp-label">发生了什么 · 碎片也可以</label>
+    <textarea class="inp" id="tm-scene" rows="3" placeholder="在的地方...在场的人...记得最清楚的细节..."></textarea>
+  </div>
+  <div class="sec">
+    <div class="param">
+      <div class="p-name"><span>💢 残留情绪强度</span><span class="p-val" id="tm-e-val">70</span></div>
+      <input type="range" min="0" max="100" value="70" id="tm-e-range" oninput="document.getElementById('tm-e-val').textContent=this.value">
+    </div>
+    <div class="param" style="margin-bottom:0">
+      <div class="p-name"><span>⏳ 改写后想看多远的未来</span></div>
+      <div class="stepper">
+        <button class="st-btn" onclick="stepTH(-1)">−</button>
+        <div class="st-val" id="th-val">一年后</div>
+        <button class="st-btn" onclick="stepTH(1)">＋</button>
+      </div>
+    </div>
+  </div>
+  <button class="go" id="btn-guide" onclick="startGuide()">🌀 开始引导回溯 →</button>
+  <div class="think" id="tk-guide"><div class="tdots"><span></span><span></span><span></span></div><div class="tk">引导师正在为你定制回溯词...</div></div>
+</div>
 
-<div class="contrib">
-  <div class="cn" id="contrib-num">+0.0%</div>
-  <div class="cl">当前变量组合对综合人生胜率的拉升</div>
+<!-- ===== 时光机·引导 ===== -->
+<div class="scr" id="s-guide">
+  <div class="hd">
+    <div class="back" onclick="nav('s-tin','t-time')">‹</div>
+    <div><div class="hn">引导回溯</div><div class="hs">跟随呼吸 · 一句一句来 · 随时可退出</div></div>
+  </div>
+  <div class="sec">
+    <div class="breath">呼吸</div>
+    <div id="glines"></div>
+  </div>
+  <div class="sec" id="rw-sec" style="display:none">
+    <div class="sec-t">对那时的自己说一句话</div>
+    <div class="sec-hint">你是带着今天全部的资源和智慧回去的。</div>
+    <textarea class="inp" id="tm-rw" rows="3" placeholder="我想对那时的我说..."></textarea>
+    <button class="go" style="width:100%;margin:11px 0 0" id="btn-release" onclick="doRelease()">⟳ 改写 · 释放 · 重织时间线</button>
+    <div class="think" id="tk-release" style="padding:8px 4px 0"><div class="tdots"><span></span><span></span><span></span></div><div class="tk">正在从那个时间戳重跑因果流水线...</div></div>
+  </div>
+</div>
+
+<!-- ===== 时光机·重织结果 ===== -->
+<div class="scr" id="s-tboard">
+  <div class="hd">
+    <div class="back" onclick="nav('s-guide','t-time')">‹</div>
+    <div><div class="hn">时间线已重织</div><div class="hs">过去那一帧 · 上下拖隔板看改写前后</div></div>
+  </div>
+  <div class="seg">
+    <button class="seg-b on" id="seg-0" onclick="segTo(0)">⏪ 过去</button>
+    <button class="seg-b" id="seg-1" onclick="segTo(1)">▶ 现在</button>
+    <button class="seg-b" id="seg-2" onclick="segTo(2)">⏩ 未来</button>
+  </div>
+  <div id="tm-past-wipe">
+    <div class="wipe-wrap" style="margin-bottom:8px">
+      <div class="wipe" id="twipe" style="height:280px">
+        <div class="wtag t" style="background:rgba(20,35,63,0.85);color:#BCD4F5">改写前</div>
+        <div class="wtag b" style="background:rgba(255,255,255,0.92);color:var(--c1d)">改写后</div>
+        <div class="wlayer"><svg viewBox="0 0 360 280" preserveAspectRatio="xMidYMid slice" id="tsvg-after"></svg></div>
+        <div class="wlayer" id="twl-top"><svg viewBox="0 0 360 280" preserveAspectRatio="xMidYMid slice" id="tsvg-before"></svg></div>
+        <div class="wdiv" id="twdiv"></div>
+        <div class="whandle" id="twhandle">⇅</div>
+      </div>
+    </div>
+    <div class="sec" style="padding:12px 14px"><div style="font-size:12.5px;line-height:1.7;color:var(--navy2)" id="tcap-0"></div></div>
+  </div>
+  <div id="tm-single" style="display:none">
+    <div class="single-frame">
+      <svg viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice" id="tsvg-single"></svg>
+      <div class="sf-cap" id="tcap-s"></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <div class="vd-t">⟳ 释放确认</div>
+    <div class="vd-b" id="tm-vd"></div>
+  </div>
+  <button class="go ghost" onclick="backToCrystal()">🔮 带着新参数回水晶球重测</button>
+</div>
+
+<div class="tabbar">
+  <div class="tab on" id="t-home" onclick="nav('s-home','t-home')"><span class="ti">◎</span><span class="tl">主页</span></div>
+  <div class="tab" id="t-crystal" onclick="nav('s-cin','t-crystal')"><span class="ti">🔮</span><span class="tl">水晶球</span></div>
+  <div class="tab" id="t-time" onclick="nav('s-tin','t-time')"><span class="ti">⏪</span><span class="tl">时光机</span></div>
 </div>
 </div>
-</div>
-<script type="module" src="/src/storyboard.js"></script>
+<script type="module" src="/src/app.js"></script>
 </body>
 </html>

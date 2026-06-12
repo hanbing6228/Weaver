@@ -1,4 +1,5 @@
 from weaver.models.schemas import StoryboardSyncRequest, StoryboardVariables
+from weaver.services.llm import parse_json_text
 from weaver.services.storyboard import StoryboardService
 from weaver.api.main import _bootstrap_demo_state, _fresh_storyboard_service
 
@@ -18,9 +19,8 @@ def test_storyboard_sync_all_variables() -> None:
 
 
 def test_parse_caption_json() -> None:
-    parsed = StoryboardService._parse_caption_json(
-        '{"dark":"雨夜","bright":"阳光"}'
-    )
+    parsed = StoryboardService._parse_caption_json('{"dark":"雨夜","bright":"阳光"}')
+    assert parse_json_text('{"dark":"雨夜"}') == {"dark": "雨夜"}
     assert parsed is not None
     assert parsed.dark == "雨夜"
     assert parsed.bright == "阳光"

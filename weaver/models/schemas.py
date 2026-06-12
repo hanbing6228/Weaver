@@ -185,6 +185,14 @@ class StoryboardMetric(BaseModel):
     max_value: int = 100
 
 
+class LLMJsonRequest(BaseModel):
+    model_config = ConfigDict(strict=False, extra="forbid")
+
+    system: str = Field(..., min_length=1)
+    user: str = Field(..., min_length=1)
+    max_tokens: int = Field(default=800, ge=64, le=4096)
+
+
 class StoryboardSyncRequest(BaseModel):
     model_config = ConfigDict(strict=False, extra="forbid")
 
