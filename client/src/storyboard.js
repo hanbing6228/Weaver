@@ -1,15 +1,25 @@
-const API = "/api/v1";
-
 const vars = { trauma: true, walk: true, mba: true };
 const film = document.getElementById("film");
 const layerDark = document.getElementById("layer-dark");
 const divider = document.getElementById("divider");
 const handle = document.getElementById("handle");
+const enginePill = document.getElementById("engine-pill");
 const elMap = {
   trauma: ["el-mom-b", "el-linda"],
   walk: ["el-dog"],
   mba: ["el-diploma"],
 };
+
+function apiRoot() {
+  const base = (window.WEAVER_API || "").replace(/\/$/, "");
+  return base ? `${base}/api/v1` : "/api/v1";
+}
+
+function setEngineStatus(ok) {
+  if (!enginePill) return;
+  enginePill.textContent = ok ? "● Weaver Engine" : "○ 引擎离线";
+  enginePill.classList.toggle("offline", !ok);
+}
 
 function setPos(p) {
   const pos = Math.max(4, Math.min(96, p));
@@ -85,7 +95,7 @@ function applyCaptions(captions) {
 }
 
 async function syncEngine() {
-  const res = await fetch(`${API}/storyboard/sync`, {
+  const res = await fetch(`${apiRoot()}/storyboard/sync`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ variables: vars }),
@@ -99,6 +109,7 @@ async function refreshFromEngine() {
   renderMetrics(data.metrics, data.win_contribution_percent);
   applyCaptions(data.captions);
   applyElementVisibility(data.element_visibility);
+  setEngineStatus(true);
 }
 
 async function toggleVar(key) {
@@ -108,6 +119,7 @@ async function toggleVar(key) {
     await refreshFromEngine();
   } catch (err) {
     console.error(err);
+    setEngineStatus(false);
   }
 }
 
@@ -123,13 +135,14 @@ async function genCaptions() {
   btn.disabled = true;
   btn.textContent = "🎬 导演正在写分镜旁白...";
   try {
-    const res = await fetch(`${API}/storyboard/captions`, {
+    const res = await fetch(`${apiRoot()}/storyboard/captions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(vars),
     });
     if (!res.ok) throw new Error(await res.text());
     applyCaptions(await res.json());
+    setEngineStatus(true);
   } catch {
     await refreshFromEngine();
   }
@@ -141,8 +154,23 @@ document.getElementById("ai-btn").addEventListener("click", () => {
   void genCaptions();
 });
 
+function tickClock() {
+  const el = document.getElementById("clock");
+  if (!el) return;
+  const now = new Date();
+  el.textContent = now.toLocaleTimeString("zh-CN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
+tickClock();
+setInterval(tickClock, 30_000);
+
 void refreshFromEngine().catch((err) => {
   console.error(err);
+  setEngineStatus(false);
   document.getElementById("cap-d").textContent =
     "引擎连接失败，请确认后端已启动。";
 });

@@ -17,7 +17,8 @@ python -m weaver.api
 
 API: `http://127.0.0.1:8787/health`
 
-### WebGL client (development)
+### Storyboard UI (web)
+
 
 ```bash
 cd client
@@ -42,6 +43,19 @@ Optional LLM captions (falls back to engine templates if unset or call fails):
 - **Anthropic:** `WEAVER_ANTHROPIC_API_KEY` or `ANTHROPIC_API_KEY`
 - **Provider override:** `WEAVER_LLM_PROVIDER=google` or `anthropic` when both keys are set
 - **Model override:** `GEMINI_MODEL=gemini-2.0-flash` (comma-separated fallbacks)
+
+### iOS app (Capacitor)
+
+Native shell lives in the monorepo sibling folder `../weaver-ios/`:
+
+```bash
+cd ../weaver-ios
+npm install
+cp config.example.js config.local.js   # WEAVER_API → Vercel URL
+npm run ios                              # Xcode
+```
+
+See `weaver-ios/IOS-BUILD.md` for App Store steps.
 
 ## Vercel
 
