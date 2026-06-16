@@ -259,6 +259,12 @@ function segTo(i){
 setWipe=makeWipe('wipe','wl-top','wdiv','whandle');
 setTWipe=makeWipe('twipe','twl-top','twdiv','twhandle');
 
+// HTML onclick= needs globals; ES modules do not attach to window by default.
+Object.assign(window, {
+  nav, stepH, stepTH, fillAB, summonBrains, adoptArg, castBoard, showAct,
+  goHeal, backToCrystal, startGuide, doRelease, segTo,
+});
+
 function tickClock() {
   const el = document.getElementById("clock");
   if (!el) return;
